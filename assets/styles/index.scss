@@ -1,0 +1,7 @@
+@use "./reset.scss";
+@use "./var.scss" as *;
+
+@font-face {
+  font-family: $sht-font-family;
+  src: url("/fonts/FZCYSCJW.ttf");
+}

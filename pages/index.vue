@@ -1,4 +1,8 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+useSeoMeta({
+  title: "山哈通 - 首页",
+});
+</script>
 
 <template>
   <div class="container">
@@ -9,9 +13,9 @@
         </div>
         <div class="right">
           <div class="right-item">文化科普</div>
-          <div class="right-item">旅游推荐</div>
+          <a class="right-item" href="/travel">旅游推荐</a>
           <div class="right-item mall">畲族商城</div>
-          <div class="right-item">登录/注册</div>
+          <a class="right-item" href="/login">登录/注册</a>
         </div>
       </nav>
     </header>
@@ -25,7 +29,10 @@
   </div>
 </template>
 <style lang="scss" scoped>
+@use "~/assets/styles/mixins.scss" as *;
+
 header {
+  @include useShtFont;
   position: fixed;
   top: 0;
   left: 0;

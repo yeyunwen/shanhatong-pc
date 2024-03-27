@@ -1,0 +1,5 @@
+@use "./var.scss" as *;
+
+@mixin useShtFont() {
+  font-family: $sht-font-family;
+}

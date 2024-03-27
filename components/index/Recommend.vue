@@ -48,6 +48,8 @@ const data = [
   </section>
 </template>
 <style lang="scss" scoped>
+@use "~/assets/styles/mixins.scss" as *;
+
 .recommend {
   margin-top: 30px;
   margin-bottom: 50px;
@@ -57,6 +59,7 @@ const data = [
     align-items: center;
     gap: 30px;
     .title {
+      @include useShtFont;
       font-size: 70px;
     }
   }
