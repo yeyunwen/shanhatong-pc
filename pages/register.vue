@@ -57,6 +57,8 @@ const pwdIconType = computed(() =>
 </template>
 
 <style lang="scss" scoped>
+@use "~/assets/styles/var.scss" as *;
+
 .register-container {
   padding: 60px 48px 53px;
   border-radius: 21px;
@@ -69,7 +71,7 @@ const pwdIconType = computed(() =>
     .info {
       font-size: 15px;
       a {
-        color: #ff7135;
+        color: $sht-color-primary;
       }
     }
   }

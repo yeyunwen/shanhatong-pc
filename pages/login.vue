@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import { VBtn, VForm, VTextField } from "vuetify/components";
+import type { UserForm } from "@/interface/user/type";
+import { loginApi } from "@/interface/user";
+import { getUserInfoApi } from "@/interface/user";
 
 definePageMeta({
   layout: "account",
@@ -14,6 +17,67 @@ const pwdInputType = computed(() => (showPassword.value ? "text" : "password"));
 const pwdIconType = computed(() =>
   showPassword.value ? "mdi-eye" : "mdi-eye-off"
 );
+
+const userForm = ref<UserForm>({
+  contact: "",
+  password: "",
+});
+
+const route = useRoute();
+const router = useRouter();
+const { setAuth } = useAuth();
+const { setUserInfo } = useUserInfo();
+
+const getRedirect = () => {
+  return route.query.redirect ? String(route.query.redirect) : "/";
+};
+
+const getOrigin = () => {
+  return route.query.origin ? String(route.query.origin) : undefined;
+};
+
+const origin = getOrigin();
+
+const loginHandler = () => {
+  loginApi(userForm.value)
+    .then((res) => {
+      const { data: auth, code, msg } = res;
+      if (code !== 200) {
+        ElMessage.error(msg);
+      } else {
+        setAuth({ token: `${auth.tokenType} ${auth.accessToken}` }).then(() => {
+          getUserInfoApi().then((res) => {
+            setUserInfo(res.data);
+            if (origin) {
+              const targetUrl =
+                new URL(origin) +
+                `?token=${`${auth.tokenType} ${auth.accessToken}`}`;
+              window.open(targetUrl, "_self");
+            } else {
+              router.push(getRedirect());
+            }
+          });
+        });
+      }
+    })
+    .catch((err) => {
+      ElMessage.error("用户名或密码错误");
+    });
+};
+
+const contactRuls = [
+  (value: string) => {
+    if (value) return true;
+    return "邮箱或手机号不能为空";
+  },
+];
+
+const passwordRuls = [
+  (value: string) => {
+    if (value) return true;
+    return "密码不能为空";
+  },
+];
 </script>
 
 <template>
@@ -26,30 +90,35 @@ const pwdIconType = computed(() =>
       </div>
     </div>
     <div class="body">
-      <VForm validate-on="submit">
-        <VTextField
-          label="邮箱或手机号"
-          clearable
-          style="width: 420px"
-          :rules="[(v) => !!v || '不能为空']"
-        ></VTextField>
-        <VTextField
-          label="密码"
-          clearable
-          :append-inner-icon="pwdIconType"
-          :type="pwdInputType"
-          style="width: 420px"
-          :rules="[(v) => !!v || '不能为空']"
-          @click:append-inner="() => (showPassword = !showPassword)"
-        ></VTextField>
-      </VForm>
+      <VTextField
+        v-model="userForm.contact"
+        label="邮箱或手机号"
+        clearable
+        style="width: 420px"
+        required
+        :rules="contactRuls"
+      ></VTextField>
+      <VTextField
+        v-model="userForm.password"
+        label="密码"
+        clearable
+        :append-inner-icon="pwdIconType"
+        :type="pwdInputType"
+        style="width: 420px"
+        :rules="passwordRuls"
+        @click:append-inner="() => (showPassword = !showPassword)"
+      ></VTextField>
 
-      <v-btn size="x-large" width="420px" color="#ff7135">登录</v-btn>
+      <v-btn size="x-large" width="420px" color="#ff7135" @click="loginHandler"
+        >登录</v-btn
+      >
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+@use "~/assets/styles/var.scss" as *;
+
 .login-container {
   padding: 60px 48px 53px;
   border-radius: 21px;
@@ -62,7 +131,7 @@ const pwdIconType = computed(() =>
     .info {
       font-size: 15px;
       a {
-        color: #ff7135;
+        color: $sht-color-primary;
       }
     }
   }

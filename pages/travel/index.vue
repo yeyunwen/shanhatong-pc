@@ -24,12 +24,14 @@ onMounted(() => {
   const cal = (): {
     width: number;
     containerLeft: number;
+    containerTop: number;
     columns: number;
     gapH: number;
     gapV: number;
   } => {
     const containerWidth = listContainer.clientWidth;
     const containerLeft = listContainer.offsetLeft;
+    const containerTop = listContainer.offsetTop;
     const width = document.querySelector(".travel-item")?.clientWidth || 0;
     // const width = 200;
     const columns = Math.floor(containerWidth / width);
@@ -39,6 +41,7 @@ onMounted(() => {
     return {
       width,
       containerLeft,
+      containerTop,
       columns,
       gapH,
       gapV,
@@ -47,7 +50,9 @@ onMounted(() => {
 
   const setPosition = () => {
     const layoutInfo = cal();
-    const nextTops = new Array(layoutInfo.columns).fill(0);
+    const nextTops = new Array(layoutInfo.columns).fill(
+      layoutInfo.containerTop
+    );
 
     for (let i = 0; i < travels.length; i++) {
       const travel = travels[i] as HTMLElement;
@@ -76,7 +81,7 @@ onMounted(() => {
     timer = setTimeout(() => {
       setPosition();
       timer = null;
-    }, 500);
+    }, 300);
   });
 });
 </script>
@@ -106,7 +111,7 @@ onMounted(() => {
 .travel-container {
   --column-width: calc(25vw - 30px);
   --travel-border-radius: 16px;
-  width: 1680px;
+  max-width: 1680px;
   margin: 0 auto;
   #travel-list {
     width: 100%;

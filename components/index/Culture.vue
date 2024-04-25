@@ -1,30 +1,11 @@
 <script lang="ts" setup>
-const data = [
-  {
-    id: 1,
-    title: "滚滚长江东逝水",
-    desc: "滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水",
-    img: "https://picsum.photos/122/122",
-  },
-  {
-    id: 2,
-    title: "滚滚长江东逝水",
-    desc: "滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水",
-    img: "https://picsum.photos/122/122",
-  },
-  {
-    id: 3,
-    title: "滚滚长江东逝水",
-    desc: "滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水",
-    img: "https://picsum.photos/122/122",
-  },
-  {
-    id: 4,
-    title: "滚滚长江东逝水",
-    desc: "滚滚长江东逝水滚滚长江东逝水滚滚长江东逝水",
-    img: "https://picsum.photos/122/122",
-  },
-];
+import { getCultureListApi } from "@/interface/culture";
+
+const {
+  data: { list: cultureList },
+} = await getCultureListApi();
+
+const data = cultureList.slice(0, 4);
 </script>
 
 <template>
@@ -37,10 +18,10 @@ const data = [
     <div class="content">
       <div class="list">
         <div v-for="item in data" :key="item.id" class="list-item">
-          <img :src="item.img" />
+          <img :src="item.cover" />
           <div class="list-item-content">
             <div class="list-item-title">{{ item.title }}</div>
-            <div class="list-item-desc">{{ item.desc }}</div>
+            <div class="list-item-desc">{{ item.description }}</div>
           </div>
         </div>
       </div>
@@ -89,7 +70,7 @@ const data = [
         }
         .list-item-title {
           margin-bottom: 14px;
-          font-size: 28px;
+          font-size: 20px;
         }
         .list-item-desc {
           display: -webkit-box;

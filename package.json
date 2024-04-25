@@ -19,7 +19,10 @@
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
+    "@element-plus/nuxt": "^1.0.8",
     "@nuxt/eslint-config": "^0.2.0",
+    "@unocss/nuxt": "0.59.0-beta.1",
+    "element-plus": "^2.6.3",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.2.5",

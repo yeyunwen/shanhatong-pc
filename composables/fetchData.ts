@@ -7,16 +7,26 @@ export interface ResponseData<T = any> {
 }
 export type DataPromise<T = any> = Promise<ResponseData<T>>;
 
-const baseUrl = "http://localhost:3001";
+const baseUrl = "http://localhost:3100";
 
 export const useFetchData = async (
   url: string,
-  options?: UseFetchOptions<any>
+  options: UseFetchOptions<any> = {}
 ) => {
   // const { data } = await useFetch<ResponseData>(`${baseUrl}${url}`, options);
   // console.log("data", data.value);
 
   // return data.value as ResponseData;
+  const { auth } = useAuth();
+  console.log("fetch", auth.value);
+
+  const defaultOptions = {
+    headers: {
+      Authorization: auth.value.token || "",
+    },
+  };
+
+  options = { ...defaultOptions, ...options };
 
   return new Promise<ResponseData>((resolve, reject) => {
     useFetch<ResponseData>(`${baseUrl}${url}`, options).then((res) => {

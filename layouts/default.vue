@@ -33,13 +33,17 @@ const goToMall = () => {
             <a class="left-item logo" href="/">山哈通</a>
           </div>
           <div class="right">
-            <div class="right-item">文化科普</div>
+            <a class="right-item" href="/culture">文化科普</a>
             <a class="right-item" href="/travel">旅游推荐</a>
-            <a class="right-item mall" @click="goToMall"> 畲族商城 </a>
+            <a class="right-item mall" cursor-pointer @click="goToMall">
+              畲族商城
+            </a>
             <div v-if="isLogin" class="right-item">
-              <a>{{ user.username }}</a>
+              <a cursor-pointer>{{ user.username }}</a>
               <span style="margin: 0 8px">|</span>
-              <span class="right-item" @click="logoutHandler">退出</span>
+              <span class="right-item" cursor-pointer @click="logoutHandler"
+                >退出</span
+              >
             </div>
             <a v-else class="right-item" href="/login">登录/注册</a>
           </div>
